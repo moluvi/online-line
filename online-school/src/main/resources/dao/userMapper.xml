@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xxp.mapper.UserMapper">
+	<select id="loadUserByUsername" resultType="xxp.entity.User">
+		SELECT * FROM user WHERE username=#{username}
+	</select>
+	
+	<select id="getUserRolesByUid" resultType="xxp.entity.Role">
+		SELECT r.* FROM role r,user_role ur WHERE r.`id`=ur.`rid` AND ur.`uid`=#{id}
+	</select>
+	
+	<insert id="addUser" parameterType="xxp.entity.User">
+		insert into user(username, nickname, password, enabled, locked)
+		values (#{username}, #{nickname}, #{password}, #{enabled}, #{locked})
+	</insert>
+	
+	<insert id="addRole_User_teacher">
+		insert into user_role(uid, rid)
+		values (#{uid}, 4)
+	</insert>
+	
+	<insert id="addRole_User_Student">
+		insert into user_role(uid, rid)
+		values (#{uid}, 5)
+	</insert>
+	
+	<insert id="addTeacher" parameterType="xxp.entity.Teacher">
+		insert into teacher(name,school)
+		values (#{username},#{school})
+	</insert>
+	
+	<insert id="addStudent" parameterType="xxp.entity.Student">
+		insert into student(studentName,school,studentNo)
+		values (#{username},#{school},#{studentNo})
+	</insert>
+	
+	
+</mapper>

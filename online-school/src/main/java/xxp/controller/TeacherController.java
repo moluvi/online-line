@@ -1,0 +1,16 @@
+package xxp.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/teacher")
+public class TeacherController {
+	@RequestMapping("/home")
+	public String TeacherHome () {
+		return "hello teacher";
+	}
+	
+	
+	
+}

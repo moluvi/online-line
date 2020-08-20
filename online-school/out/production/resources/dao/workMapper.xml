@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xxp.mapper.WorkMapper">
+	<select id="getAllWorks" resultType="xxp.entity.Work">
+		 select * 
+		 from work
+		 where course= #{courseName} 
+	</select>
+	
+	<insert id="addWork" parameterType="xxp.entity.Work">
+		insert into work(workName, workDetail, workDate, course, fullGrade,workFile)
+		values (#{workName}, #{workDetail}, #{workDate}, #{course}, #{fullGrade},#{workFile})
+	</insert>
+	
+	<select id="getWorkById" parameterType="Integer" resultType="xxp.entity.Work">
+		select *
+		from work
+		where workId = #{workId}
+	</select>
+	
+	<update id="updateWork" parameterType="xxp.entity.Work">
+		update work
+		set workName=#{workName}, workDetail=#{workDetail}, workDate=#{workDate}, fullGrade=#{fullGrade}, workFile=#{workFile}
+		where workId=#{workId}
+	</update>
+	
+	<delete id="deleteWork">
+		delete 
+		from work
+		where workId=#{workId}
+	</delete>
+	
+</mapper>

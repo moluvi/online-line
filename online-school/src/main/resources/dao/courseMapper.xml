@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xxp.mapper.CourseMapper">
+	<select id="getAllCourses" resultType="xxp.entity.Course">
+		 select * 
+		 from course
+		 where teacher= #{teachername} 
+	</select>
+
+	<select id="getAllCoursesByStudent" resultType="xxp.entity.Course">
+		 select * 
+		 from course,stu_course
+		 where stu_course.studentName = #{studentname} and course.courseId = stu_course.courseId 
+	</select>
+	
+	
+	<insert id="addCourse" parameterType="xxp.entity.Course">
+		insert into course(courseName, courseClass, courseNO, courseYear, courseTerm, member, teacher)
+		values (#{courseName}, #{courseClass}, #{courseNO}, #{courseYear}, #{courseTerm}, 0 , #{teacher})
+	</insert>
+	
+	
+	<select id="getCourseByName" parameterType="String" resultType="xxp.entity.Course">
+		select *
+		from course
+		where courseName = #{courseName}
+	</select>
+	
+	
+	<select id="getCourseById" parameterType="Integer" resultType="xxp.entity.Course">
+		select *
+		from course
+		where courseId = #{courseId}
+	</select>
+	
+	<update id="updateCourse" parameterType="xxp.entity.Course">
+		update course
+		set courseName=#{courseName}, courseClass=#{courseClass}, courseYear=#{courseYear}, courseTerm=#{courseTerm}
+		where courseId=#{courseId}
+	</update>
+	
+	<delete id="deleteCourse">
+		delete 
+		from course
+		where courseName=#{courseName}
+	</delete>
+	
+	<select id="getCourseByNO" parameterType="String" resultType="xxp.entity.Course">
+		select *
+		from course
+		where courseNO = #{courseNO}
+	</select>
+	
+	<select id="getCountByNO" parameterType="String" resultType= "Integer">
+		select count(*)
+		from course
+		where courseNO = #{courseNO}
+	</select>
+	
+	<insert id="joinCourse" parameterType="xxp.entity.Course">
+		insert into stu_course(studentName,courseId)
+		values (#{studentName}, #{courseId})
+		
+	</insert>
+	
+	<update id="updateMember">
+		update course
+		set member = member+1
+		where courseId=#{courseId}
+	</update>
+	
+	<delete id="exitCourse">
+		delete 
+		from stu_course
+		where courseId=#{courseId}
+	</delete>
+	
+	
+	<insert id="drawnCourse" parameterType="xxp.entity.Course" useGeneratedKeys="true" keyProperty="courseId">
+		insert into drawn_course(courseName, courseClass, courseNO, courseYear, courseTerm, member, teacher)
+		values (#{courseName}, #{courseClass}, #{courseNO}, #{courseYear}, #{courseTerm}, #{member} , #{teacher})
+	</insert>
+	
+	<select id="getDrawnCourses" resultType="xxp.entity.Course">
+		 select * 
+		 from drawn_course dc,drawn_student ds
+		 where ds.studentName=#{studentName} and ds.courseId = dc.courseId
+	</select>
+	
+	<select id="getDrawnCourseById" parameterType="Integer" resultType="xxp.entity.Course">
+		select *
+		from drawn_course
+		where courseId = #{courseId}
+	</select>
+	
+	<delete id="exitDrawnCourse">
+		delete 
+		from drawn_course
+		where courseName=#{courseName}
+	</delete>
+	
+	
+	<insert id="addStuDrawn">
+		insert into drawn_student(studentName,courseId)
+		values (#{studentName}, #{courseId})
+	</insert>
+	
+	
+	<delete id="drawnExitCourse">
+		delete 
+		from drawn_student
+		where courseId= (select courseId from drawn_course where courseName=#{courseName} )
+	</delete>
+	
+</mapper>

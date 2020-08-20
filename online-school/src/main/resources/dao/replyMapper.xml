@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xxp.mapper.ReplyMapper">
+	<select id="getAllReplys" resultType="xxp.entity.Reply">
+		 select r.* 
+		 from reply r,reply_work rw
+		 where r.`replyId` = rw.`replyId` 
+		 AND rw.`workId` = #{workId} 
+	</select>
+	
+	<select id="getReplyById" parameterType="Integer" resultType="xxp.entity.Reply">
+		select *
+		from reply
+		where replyId = #{replyId}
+	</select>
+	
+	<update id="updateGrade" parameterType="xxp.entity.Reply">
+		update reply
+		set grade=#{grade}
+		where replyId=#{replyId}
+	</update>
+	
+
+	
+	<insert id="addReply" parameterType="xxp.entity.Reply" useGeneratedKeys="true" keyProperty="replyId">
+		insert into Reply(studentNo,studentName,submitTime,replyFile)
+		values (#{studentNo}, #{studentName}, #{submitTime}, #{replyFile})
+	</insert>
+	
+	
+	<insert id="addReply_work">
+		insert into Reply_work(workId,replyId)
+		values (#{workId}, #{replyId})
+	</insert>
+
+	
+    
+</mapper>
